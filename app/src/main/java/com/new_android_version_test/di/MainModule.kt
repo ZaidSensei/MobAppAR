@@ -1,17 +1,35 @@
-package com.new_android_version_test
+package com.new_android_version_test.di
 
 import android.app.NotificationManager
 import android.content.Context
 import androidx.core.app.NotificationCompat
+import com.kdownloader.DownloaderConfig
+import com.kdownloader.KDownloader
+import com.new_android_version_test.R
+import com.new_android_version_test.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ServiceScoped
 
 @Module
 @InstallIn(ServiceComponent::class)
 object MainModule {
+
+
+    @ServiceScoped
+    @Provides
+    fun provideKDownloader(
+        @ApplicationContext context: Context
+    ):KDownloader {
+        val config = DownloaderConfig(
+            connectTimeOut = 10000,
+            readTimeOut = 10000
+        )
+        return KDownloader.create(context , config)
+    }
 
 
     @Provides
@@ -24,8 +42,9 @@ object MainModule {
             Constants.NOTIFICATION_CHANNEL
         )
             .setOngoing(true)
-            .setContentTitle("Count running")
-            .setContentText("00:00")
+            .setContentTitle("Loading...")
+            .setContentText("0")
+            .setProgress(100 , 0 , true)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
     }
 

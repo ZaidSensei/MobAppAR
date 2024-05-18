@@ -76,4 +76,6 @@ dependencies {
     ksp(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     annotationProcessor(libs.androidx.hilt.compiler)
+
+    implementation(libs.kDownloader)
 }
